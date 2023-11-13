@@ -31,12 +31,14 @@ app.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const newUser = yield users.insertOne(req.body);
     res.status(201).send("User added");
 }));
-app.delete('/:email', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const deleteUser = yield users.findOneAndDelete({ email: req.params.email });
+app.delete('/:_id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const cleanId = new mongodb_1.ObjectId(req.params._id);
+    const deleteUser = yield users.findOneAndDelete({ _id: cleanId });
     res.send(deleteUser);
 }));
-app.patch('/:email', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const updatedUser = yield users.findOneAndUpdate({ email: req.params.email }, { $set: req.body });
+app.patch('/:_id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const cleanId = new mongodb_1.ObjectId(req.params._id);
+    const updatedUser = yield users.findOneAndUpdate({ _id: cleanId }, { $set: req.body });
     res.send(updatedUser);
 }));
 app.listen(process.env.PORT, () => console.log(`Listening on port ${process.env.PORT}...`));

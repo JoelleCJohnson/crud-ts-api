@@ -1,6 +1,6 @@
 import express from "express"
 import cors from "cors";
-import { MongoClient } from "mongodb"
+import { MongoClient, ObjectId } from "mongodb"
 import 'dotenv/config'
 
 const client = new MongoClient(process.env.MONGO_URI as string)
@@ -26,13 +26,15 @@ app.post('/', async (req, res) => {
     res.status(201).send("User added")
 })
 
-app.delete('/:email', async (req, res) => {
-    const deleteUser = await users.findOneAndDelete({ email: req.params.email })
+app.delete('/:_id', async (req, res) => {
+    const cleanId = new ObjectId(req.params._id)
+    const deleteUser = await users.findOneAndDelete({ _id: cleanId })
     res.send(deleteUser)
 })
 
-app.patch('/:email', async (req, res) => {
-    const updatedUser = await users.findOneAndUpdate({email: req.params.email}, {$set: req.body})
+app.patch('/:_id', async (req, res) => {
+    const cleanId = new ObjectId(req.params._id)
+    const updatedUser = await users.findOneAndUpdate( { _id: cleanId}, {$set: req.body} )
     res.send(updatedUser)
 })
 
