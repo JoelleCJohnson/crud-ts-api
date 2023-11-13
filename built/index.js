@@ -28,6 +28,19 @@ app.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const allUsers = yield users.find({}).toArray();
     res.send('here is my api info');
 }));
+app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password } = req.body;
+    const foundUser = yield users.findOne({ email: email });
+    if (foundUser) {
+        const dbPassword = foundUser.password;
+        const result = yield bcrypt_1.default.compare(password, dbPassword);
+        result &&
+            res.send("You are logged in");
+    }
+    else {
+        res.json("user not found");
+    }
+}));
 app.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     const hashPass = yield bcrypt_1.default.hash(password, 10);

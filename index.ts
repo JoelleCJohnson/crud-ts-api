@@ -21,6 +21,22 @@ app.get('/', async (req, res) => {
     res.send('here is my api info')
 })
 
+
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body
+    const foundUser = await users.findOne({ email: email })
+
+    if (foundUser) {
+        const dbPassword = foundUser.password
+        const result = await bcrypt.compare(password, dbPassword)
+        result &&
+            res.send("You are logged in")
+    }
+    else{
+        res.json("user not found")
+    }
+})
+
 app.post('/', async (req, res) => {
     const { email, password } = req.body
     const hashPass = await bcrypt.hash(password, 10)
