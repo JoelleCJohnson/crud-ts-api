@@ -11,6 +11,7 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 const client = new mongodb_1.MongoClient(process.env.MONGO_URI);
+client.connect();
 const db = client.db('');
 const coll = db.collection('');
 app.get('/', (req, res) => {

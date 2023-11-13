@@ -9,6 +9,7 @@ app.use(express.json())
 app.use(cors())
 
 const client = new MongoClient(process.env.MONGO_URI as string)
+client.connect()
 
 const db = client.db('')
 const coll = db.collection('')
