@@ -1,10 +1,21 @@
 import express from "express"
 import cors from "cors";
+import { MongoClient } from "mongodb"
+import 'dotenv/config'
 
-const PORT: number = 8080
 const app = express()
 
 app.use(express.json())
 app.use(cors())
 
-app.listen(PORT, `Listening on port ${PORT}...`)
+const client = new MongoClient(process.env.MONGO_URI as string)
+
+const db = client.db('')
+const coll = db.collection('')
+
+
+app.get('/', (req, res) => {
+    res.send('here is my api info')
+})
+
+app.listen(process.env.PORT, () => console.log(`Listening on port ${process.env.PORT}...`))
