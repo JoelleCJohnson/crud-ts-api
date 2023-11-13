@@ -2,7 +2,7 @@ import express from "express"
 import cors from "cors"
 import { db } from "mongodb"
 
-const db = db.collection('')
+const coll = db.collection('')
 const PORT = 8080
 
 app.use(express.json())
