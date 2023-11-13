@@ -32,10 +32,15 @@ app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     const { email, password } = req.body;
     const foundUser = yield users.findOne({ email: email });
     if (foundUser) {
-        const dbPassword = foundUser.password;
-        const result = yield bcrypt_1.default.compare(password, dbPassword);
-        result &&
-            res.send("You are logged in");
+        try {
+            const dbPassword = foundUser.password;
+            const result = yield bcrypt_1.default.compare(password, dbPassword);
+            result &&
+                res.send("You are logged in");
+        }
+        catch (error) {
+            res.json("not authenticated");
+        }
     }
     else {
         res.json("user not found");

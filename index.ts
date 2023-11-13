@@ -27,10 +27,17 @@ app.post('/login', async (req, res) => {
     const foundUser = await users.findOne({ email: email })
 
     if (foundUser) {
-        const dbPassword = foundUser.password
-        const result = await bcrypt.compare(password, dbPassword)
-        result &&
-            res.send("You are logged in")
+
+
+        try {
+            const dbPassword = foundUser.password
+            const result = await bcrypt.compare(password, dbPassword)
+            result &&
+                res.send("You are logged in")
+        } catch (error) {
+            res.json("not authenticated")
+        }
+
     }
     else{
         res.json("user not found")
