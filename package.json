@@ -23,7 +23,7 @@
   },
   "contributors": [],
   "scripts": {
-    "dev": "",
+    "dev": "tsc -w & nodemon built/index.js",
     "test": ""
   },
   "dependencies": {
